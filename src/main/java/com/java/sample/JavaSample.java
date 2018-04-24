@@ -11,8 +11,6 @@ public class JavaSample {
 
 	public static void main(String[] args) {
 
-		//forLoopAnd8loop();
-		collection();
 	}
 
 	// For Loop And 8 loop
@@ -82,7 +80,36 @@ public class JavaSample {
 				.forEach(teacher->System.out.println(teacher.getName()));
 		
 		
+		
 	}
+	
+	//Refactor topic
+	/*static List<String> getOutStandingStudents(List<Teacher> teachers) {
+		List<String> names = new ArrayList<>();
+		for (Teacher teacher : teachers) {
+			if (teacher.isMasters()) {
+				for (Student student : teacher.getStudents()) {
+					if (student.getAge() > 18 && student.getGrade() > 2) {
+						names.add(student.getName());
+					}
+				}
+			}
+		}
+
+		return names;
+	}*/
+	
+	//Refactor topic
+	static List<String> getOutStandingStudents(List<Teacher> teachers) {
+		return teachers.stream()
+				       .filter(Teacher::isMasters)
+				       .flatMap(teacher->teacher.getStudents().stream())
+				       .filter(student->student.getAge() > 18)
+				       .filter(student->student.getGrade() > 2)
+				       .map(Student::getName)
+				       .collect(Collectors.toList());
+	}
+	
 	
 
 
